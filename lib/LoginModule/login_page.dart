@@ -38,20 +38,22 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Flexible(
 
-                                child: Card(
+                                child: Padding(
                                    // margin: EdgeInsetsGeometry,
 
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15.0)
-                                    ),
-                                    elevation: 1.0,
+                                    padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
                                       child: TextFormField(
                                           //key: formkey,
                                           decoration: const InputDecoration(
-                                              icon: Icon(Icons.phone),
-                                              hintText: 'Mobile',
-                                              border: InputBorder.none,
-                                              hasFloatingPlaceholder: true
+                                             // icon: Icon(Icons.phone),
+                                              labelText: 'Mobile',
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(),
+                                              ),
+                                              hasFloatingPlaceholder: true,
+                                              isDense: true,
+                                              focusColor: Colors.white,
 
                                           ),
                                           controller:mobilecontroller ,
