@@ -11,4 +11,9 @@ class OrderDetail{
         this.orderDate, this.orderBuyer, this.orderContactNumber,
         this.orderStatus);
 
+    static List<OrderDetail> getOrderList=[
+        OrderDetail('Basmati Rice','Rs.20/Kg','5kg','5 Aug','Big Bazar','9931373456','PENDING COLLECTION'),
+        OrderDetail('Basmati Rice','Rs.30/Kg','3kg','5 Aug','Reliance Fresh','9835173132','COLLECTED')
+    ];
+
 }

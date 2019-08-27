@@ -156,7 +156,9 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                                     child: Material(
 
                                         child: InkWell(
-                                            onTap: (){},
+                                            onTap: (){
+                                                Navigator.pushNamed(context, '/orders');
+                                            },
                                             child: Container(
                                                 child: Row(
                                                     children: <Widget>[

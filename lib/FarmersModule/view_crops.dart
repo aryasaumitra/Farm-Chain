@@ -34,6 +34,8 @@ class _ViewCropsState extends State<ViewCrops> {
                 IconButton(
                     icon: Icon(Icons.add_circle_outline),
                     tooltip: 'Add Crops',
+                    //hoverColor: Colors.black,
+                    iconSize: 45.0,
                     onPressed: (){
                         Navigator.pushNamed(context, '/addCrop');
                     },

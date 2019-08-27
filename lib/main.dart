@@ -1,6 +1,7 @@
 import 'package:agro_chain/FarmersModule/add_crop.dart';
 import 'package:agro_chain/FarmersModule/farmer_dashboard.dart';
 import 'package:agro_chain/FarmersModule/farmer_profile.dart';
+import 'package:agro_chain/FarmersModule/orders.dart';
 import 'package:agro_chain/FarmersModule/view_crops.dart';
 import 'package:agro_chain/LoginModule/login_page.dart';
 import 'package:agro_chain/SplashModule/splash_screen.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
                 '/farmerDashboard':(context)=>FarmerDashboard(),
                 '/farmerProfile':(context)=>FarmerProfile(),
                 '/viewCrops':(context)=>ViewCrops(),
-                '/addCrop':(context)=>AddCrop()
+                '/addCrop':(context)=>AddCrop(),
+                '/orders':(context)=>Orders()
             },
         );
 
