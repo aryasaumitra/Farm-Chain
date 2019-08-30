@@ -52,6 +52,8 @@ flutter:
     - assets/image/resume.png
     - assets/image/checklist.png
     - assets/image/farmer.png
+    - assets/image/blockchain.png
+    - assets/image/factory.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

@@ -9,7 +9,7 @@ class AddCrop extends StatefulWidget {
 }
 
 class _AddCropState extends State<AddCrop> {
-    final _formKey = GlobalKey<FormState>();
+    //final _formKey = GlobalKey<FormState>();
     final GlobalKey<FormBuilderState> _fbKey= GlobalKey<FormBuilderState>();
     File _image;
     Future getImage() async{
