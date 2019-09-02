@@ -143,9 +143,9 @@ class _LoginPageState extends State<LoginPage> {
   void _onSubmit(){
 
       _loginKey.currentState.save();
-      print(_loginKey.currentState.value);
+      //print(_loginKey.currentState.value);
      // if(_loginKey.currentState.validate()){
-          Navigator.pushNamed(context, '/consumerDashboard');
+          Navigator.pushNamed(context, '/retailerDashboard');
       //}
       //if(formkey.currentState.validate()){
            // print(formkey.currentState.toString());

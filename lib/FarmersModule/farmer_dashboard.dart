@@ -106,7 +106,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
                                     child: InkWell(
                                         onTap: (){
-                                            Navigator.pushNamed(context, '/viewCrops');
+                                            Navigator.pushNamed(context, '/farmerViewCrops');
                                         },
                                       child: Container(
                                             child: Row(
@@ -157,7 +157,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
                                         child: InkWell(
                                             onTap: (){
-                                                Navigator.pushNamed(context, '/orders');
+                                                Navigator.pushNamed(context, '/farmerOrders');
                                             },
                                             child: Container(
                                                 child: Row(

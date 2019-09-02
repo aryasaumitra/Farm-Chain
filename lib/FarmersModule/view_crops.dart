@@ -37,7 +37,7 @@ class _ViewCropsState extends State<ViewCrops> {
                     //hoverColor: Colors.black,
                     iconSize: 45.0,
                     onPressed: (){
-                        Navigator.pushNamed(context, '/addCrop');
+                        Navigator.pushNamed(context, '/farmerAddCrop');
                     },
                 )
             ],
