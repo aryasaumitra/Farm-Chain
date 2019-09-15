@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:agro_chain/LoginModule/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -38,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Padding(
                                         padding: const EdgeInsets.all(15.0),
                                         child: FormBuilderTextField(
-                                            attribute: 'mobile',
+                                            attribute: 'mobileNumber',
                                             keyboardType: TextInputType.number,
                                             validators: [
                                                 FormBuilderValidators.minLength(10),
@@ -64,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 FormBuilderValidators.minLength(8),
                                                 FormBuilderValidators.required()
                                             ],
+                                            obscureText: true,
                                             decoration: InputDecoration(
                                                 labelText: 'Password',
                                                 fillColor: Colors.white,
@@ -73,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                                 focusColor: Colors.white,
                                                 isDense: true,
+
                                             ),
                                         ),
                                     ),
@@ -140,12 +146,35 @@ class _LoginPageState extends State<LoginPage> {
         ),
     );
   }
-  void _onSubmit(){
+  void _onSubmit() async{
 
       _loginKey.currentState.save();
       //print(_loginKey.currentState.value);
      // if(_loginKey.currentState.validate()){
-          Navigator.pushNamed(context, '/retailerDashboard');
+      Map<dynamic,dynamic> data=_loginKey.currentState.value;
+     // print(data);
+      data['mobileNumber']='+91'+data['mobileNumber'];
+     // print(data);
+      
+      var response=await LoginService.userLogin(data);
+      //print(val);
+      if(response.statusCode==200){
+          print(response.body);
+          var decodeResponse=jsonDecode(response.body);
+          print(decodeResponse);
+//          print(val['payload']);
+//          print(val['payload']['token']);
+        var userProfileResponse=await LoginService.userProfile(decodeResponse['payload']['token']);
+        if(userProfileResponse.statusCode==200) {
+            var userProfile = jsonDecode(userProfileResponse.body);
+            print(userProfile);
+        }
+      }
+      else{
+          print("Login ERROR");
+      }
+
+        //  Navigator.pushNamed(context, '/retailerDashboard');
       //}
       //if(formkey.currentState.validate()){
            // print(formkey.currentState.toString());
