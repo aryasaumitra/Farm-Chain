@@ -4,20 +4,20 @@ import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConsumerTrackBack extends StatefulWidget {
+class RetailerStock extends StatefulWidget {
   @override
-  _ConsumerTrackBackState createState() => _ConsumerTrackBackState();
+  _RetailerStockState createState() => _RetailerStockState();
 }
 
-class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
+class _RetailerStockState extends State<RetailerStock> {
   @override
   Widget build(BuildContext context) {
       final userProfile=Provider.of<UserProfile>(context);
     return Scaffold(
         appBar: AppBar(
-            title:Text('Choose Order'),
-            elevation: 0.0,
+            title: Text('Retailer Stocks'),
             backgroundColor: Color.fromRGBO(52, 152,219 , 1.0),
+            elevation: 0.0,
             leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
                 Navigator.of(context).pop();
             },),
@@ -78,7 +78,7 @@ class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
                                                 ),
                                                 Padding(
                                                     padding: const EdgeInsets.only(top:4.0,left:15.0),
-                                                    child: Text('Order ID:'+snapshot.data[index].stockId,
+                                                    child: Text('Stock ID:'+snapshot.data[index].stockId,
                                                         style: TextStyle(
                                                             fontSize: 18.0,
                                                             color: Colors.white,
@@ -91,7 +91,17 @@ class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
                                                 ),
                                                 Padding(
                                                     padding:const EdgeInsets.only(top:4.0,left:15.0),
-                                                    child: Text('Bought:'+snapshot.data[index].quantity.toString()+'Kg',
+                                                    child: Text('Available:'+snapshot.data[index].quantity.toString()+'Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding:const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Text('Price: Rs.'+snapshot.data[index].sellingPrice.toString()+'/Kg',
                                                         style: TextStyle(
                                                             fontSize: 18.0,
                                                             color: Colors.white,

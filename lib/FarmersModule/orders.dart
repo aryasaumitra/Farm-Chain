@@ -1,5 +1,8 @@
-import 'package:agro_chain/FarmersModule/order_detail.dart';
+import 'package:agro_chain/APIEndpoints/OrdersAPI/order.dart';
+
+import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Orders extends StatefulWidget {
   @override
@@ -7,13 +10,15 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-    List<OrderDetail> orders=OrderDetail.getOrderList;
+
   @override
   Widget build(BuildContext context) {
+
+      final userProfile=Provider.of<UserProfile>(context);
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-            title: Text('Orders',
+            title: Text('Farmer Orders',
 
                 style: TextStyle(
                     fontSize: 20.0,
@@ -31,169 +36,150 @@ class _OrdersState extends State<Orders> {
             backgroundColor: Color.fromRGBO(52, 152,219 , 1.0) ,
             elevation: 0.0,
         ),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-                    Expanded(
-                        flex:6 ,
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: orders.length,
-                            itemBuilder:(context,index){
-                                return Padding(
-                                    padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
+        body:Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: FutureBuilder(
+                future: Order.getOrders(authToken: userProfile.authToken),
+                builder: (context,snapshot){
+                    if(!snapshot.hasData){
+                        return Center(
+                            child: Text('Loading...'),
+                        );
+                    }
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index){
+                            return Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 5.0,bottom: 5.0),
+                                child: Card(
+                                    elevation: 8.0,
+                                    color: Colors.white,
                                     child: Container(
-                                        width: double.infinity,
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: Color.fromRGBO(52, 152,219 , 1.0),
                                             borderRadius: BorderRadius.circular(8.0),
                                             boxShadow: [
                                                 BoxShadow(
                                                     color: Colors.black12,
-                                                    offset: Offset(0.0,15.0),
-                                                    blurRadius: 15.0
-
+                                                    offset: Offset(0.0,10.0),
+                                                    blurRadius: 5.0
                                                 ),
                                                 BoxShadow(
                                                     color: Colors.black12,
                                                     offset: Offset(0.0,-10.0),
-                                                    blurRadius: 15.0
-
+                                                    blurRadius: 5.0
                                                 )
 
                                             ]
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-//                                                  SizedBox(
-//                                                      height: 5.0,
-//                                                      width: 5.0,
-//                                                  ),
-                                                  Text(orders[index].orderName,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                  SizedBox(
-                                                      height: 5.0,
-                                                      width: 5.0,
-                                                  ),
-                                                  Text('Qty:'+orders[index].orderQuantity,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                  Text('Price:'+orders[index].orderPrice,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                  Text('Date:'+orders[index].orderDate,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                  Text('Buyer:'+orders[index].orderBuyer,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                  Text('Mobile:'+orders[index].orderContactNumber,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20.0
-                                                      ),
-                                                  ),
-                                                    Row(
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top: 10.0,left: 15.0),
+                                                    child: Text(snapshot.data[index].cropVariety+' '+snapshot.data[index].cropName,
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 24.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        )
+                                                    ),
+                                                ),
+
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top: 4.0,left: 15.0),
+                                                    child: Text('Qty:'+snapshot.data[index].quantity.toString()+' Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top: 4.0,left: 15.0),
+                                                    child: Text('Price:'+snapshot.data[index].sellingPrice.toString()+' Rs/Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0),
+                                                    child: Text('Date:'+snapshot.data[index].orderDate,
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding:  const EdgeInsets.only(top: 4.0,left: 15.0),
+                                                    child: Text('Buyer:'+snapshot.data[index].buyerName+' ( '+snapshot.data[index].buyerType+' )',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0),
+                                                    child: Text('Owner:'+ snapshot.data[index].ownerName+ ' ( '+snapshot.data[index].ownerType+' )',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Row(
                                                         children: <Widget>[
                                                             Text('Status:',
                                                                 style: TextStyle(
-                                                                    color: Colors.black,
-                                                                    fontSize: 20.0
+                                                                    fontSize: 18.0,
+                                                                    color: Colors.white,
+                                                                    wordSpacing: 2.0
                                                                 ),
                                                             ),
-                                                            getStatus(orders[index].orderStatus)
+                                                            Text(snapshot.data[index].orderStatus,
+                                                                style: TextStyle(
+                                                                    fontSize: 18.0,
+                                                                    color: decideColor(snapshot.data[index].orderStatus),
+                                                                    wordSpacing: 2.0
+                                                                ),
+                                                            )
                                                         ],
-                                                    ),
+                                                    )
+                                                ),
 
 
-                                              ],
-                                          ),
+
+                                            ],
                                         ),
                                     ),
-                                );
-                            }
-                        ),
-                    ),
-                    Expanded(
-                        flex:1,
-                        child: Row(
-                            children: <Widget>[
-                                Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(top: 20.0,right: 10.0),
-                                        child: Image.asset('assets/image/cereal.png',width: 70.0,height: 70.0,),
-                                    ),
                                 ),
-                                Expanded(
-                                    flex: 2,
-                                    child: SizedBox(
-                                        width: 70.0,
-                                        height: 70.0,
-                                    ),
-                                ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(top: 20.0,right: 10.0),
-                                        child: Image.asset('assets/image/cereal.png',width: 70.0,height: 70.0,),
-                                    ),
-                                )
-                            ],
-                        ),
-                    )
-
-            ],
+                            );
+                        });
+                },
+            ),
         ),
     );
   }
+    Color decideColor(String status){
+        if(status=='COMPLETED')
+            return Colors.lightGreenAccent;
+        else
+            return Colors.deepOrangeAccent;
+    }
 }
 
-Widget getStatus(String currentStatus){
-    if(currentStatus=='PENDING COLLECTION') {
-        return Text(currentStatus,
-            style: TextStyle(
-                color: Colors.orange,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-            ),
-        );
-    }
-    else if(currentStatus=='COLLECTED'){
-        return Text(currentStatus,
-            style: TextStyle(
-                color: Colors.green,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-            ),
-        );
-    }
-    return Text('UNKNOWN',
-        style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0
-        ),
-    );
-}

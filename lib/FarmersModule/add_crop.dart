@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:agro_chain/APIEndpoints/CropAPI/crop.dart';
+
+import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 class AddCrop extends StatefulWidget {
   @override
   _AddCropState createState() => _AddCropState();
@@ -31,225 +35,211 @@ class _AddCropState extends State<AddCrop> {
                 },
             ),
         ),
-        resizeToAvoidBottomPadding: false,
+       // resizeToAvoidBottomPadding: false,
         body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-//                Expanded(
-//                  child: Form(
-//                      key: _formKey,
-//                      child: Column(
-//                          crossAxisAlignment: CrossAxisAlignment.start,
-//                          children: <Widget>[
-//                                Flexible(
-//                                    child: Padding(
-//                                        padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
-//                                        child: TextFormField(
-//                                            validator: (value){
-//                                                if(value.isEmpty){
-//                                                    return 'Please enter some text';
-//                                                }
-//                                                return null;
-//                                            },
-//                                            decoration: InputDecoration(
-//                                                labelText: 'Name',
-//                                                fillColor: Colors.white,
-//                                                border: OutlineInputBorder(
-//                                                    borderRadius: BorderRadius.circular(10.0),
-//                                                    borderSide: BorderSide(),
-//
-//                                                ),
-//                                                focusColor: Colors.white,
-//                                                isDense: true
-//                                            ),
-//                                            //initialValue: "Arya Saumitra",
-//                                            textAlign: TextAlign.start,
-//                                            keyboardType: TextInputType.text,
-//
-//
-//                                        ),
-//                                    ),
-//                                ),
-//
-//                          ],
-//                      ),
-//                  ),
-//                ),
-            Expanded(
+
+            Flexible(
                 flex: 6,
-              child: FormBuilder(
-                  key: _fbKey,
+              child: SingleChildScrollView(
+                child: FormBuilder(
+                    key: _fbKey,
 
-                  child: Column(
-                      children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
-                            child: FormBuilderTextField(
-                                attribute: 'name',
-                                validators: [
-                                    FormBuilderValidators.required(errorText: 'Required')
-                                ],
-                                decoration: InputDecoration(
-                                    labelText: 'Name',
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        borderSide: BorderSide()
-                                    ),
-                                    focusColor: Colors.white,
-                                    isDense: true,
-                                ),
-                                keyboardType: TextInputType.text,
+                    child: Column(
+                        children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
+                              child: FormBuilderTextField(
+                                  attribute: 'name',
+                                  validators: [
+                                      FormBuilderValidators.required(errorText: 'Required')
+                                  ],
+                                  decoration: InputDecoration(
+                                      labelText: 'Name',
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderSide: BorderSide()
+                                      ),
+                                      focusColor: Colors.white,
+                                      isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.text,
+                              ),
                             ),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
-                              child: FormBuilderTextField(
-                                  attribute: 'quantity',
-                                  validators: [
-                                      FormBuilderValidators.required(errorText: 'Required'),
-                                      FormBuilderValidators.numeric()
-                                  ],
-                                  decoration: InputDecoration(
-                                      labelText: 'Quantity(Kg)',
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          borderSide: BorderSide()
-                                      ),
-                                      focusColor: Colors.white,
-                                      isDense: true,
-                                  ),
-                                  keyboardType: TextInputType.number,
-                              ),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0),
-                              child: FormBuilderTextField(
-                                  attribute: 'price',
-                                  validators: [
-                                      FormBuilderValidators.required(errorText: 'Required'),
-                                      FormBuilderValidators.numeric()
-                                  ],
-                                  decoration: InputDecoration(
-                                      labelText: 'Price (per Kg)',
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          borderSide: BorderSide()
-                                      ),
-                                      focusColor: Colors.white,
-                                      isDense: true,
-                                  ),
-                                  keyboardType: TextInputType.number,
-                              ),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0),
-                              child: FormBuilderDropdown(
-                                  attribute: 'grade',
-                                  decoration: InputDecoration(
-                                      labelText: 'Grade',
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          borderSide: BorderSide()
-                                      ),
-                                      focusColor: Colors.white,
-                                      isDense: true,
-                                  ),
-                                  validators: [FormBuilderValidators.required()],
-                                  items: ['A','B','C','D'].map((grade)=>DropdownMenuItem(
-                                      value: grade,
-                                      child: Text('$grade'),
-                                  )).toList(),
-                              ),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
-                              child: Material(
-                                  child: InkWell(
-                                      onTap: getImage,
-                                      child: Container(
-                                          height: 50.0,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.black12,
-                                                      offset: Offset(0.0,15.0),
-                                                      blurRadius: 15.0
-                                                  ),
-                                                  BoxShadow(
-                                                      color: Colors.black12,
-                                                      offset: Offset(0.0,-10.0),
-                                                      blurRadius: 15.0
-                                                  )
-                                              ]
-                                          ),
-                                          child: Center(
-                                              child: Text('ADD IMAGE',
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.bold
-                                                  ),
-                                              ),
-                                          ),
-                                      ),
-                                  ),
-                              )
-                          ) ,
-                          Padding(
-                              padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
-                              child: Material(
-                                  child: InkWell(
-                                      onTap: onSave,
-                                      child: Container(
-                                          height: 50.0,
-                                         width: double.infinity,
-                                         // margin: const EdgeInsets.all(100.0),
-                                          decoration:  BoxDecoration(
-                                              color: Color.fromRGBO(52, 152,219 , 1.0),
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.black12,
-                                                      offset: Offset(0.0,15.0),
-                                                      blurRadius: 15.0
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                child: FormBuilderTextField(
+                                    attribute: 'variety',
+                                    validators: [
+                                        FormBuilderValidators.required(errorText: 'Required'),
+                                        //FormBuilderValidators.numeric()
+                                    ],
+                                    decoration: InputDecoration(
+                                        labelText: 'Variety',
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide()
+                                        ),
+                                        focusColor: Colors.white,
+                                        isDense: true,
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                child: FormBuilderTextField(
+                                    attribute: 'quantity',
+                                    validators: [
+                                        FormBuilderValidators.required(errorText: 'Required'),
+                                        FormBuilderValidators.numeric()
+                                    ],
+                                    decoration: InputDecoration(
+                                        labelText: 'Quantity(Kg)',
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide()
+                                        ),
+                                        focusColor: Colors.white,
+                                        isDense: true,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                child: FormBuilderTextField(
+                                    attribute: 'price',
+                                    validators: [
+                                        FormBuilderValidators.required(errorText: 'Required'),
+                                        FormBuilderValidators.numeric()
+                                    ],
+                                    decoration: InputDecoration(
+                                        labelText: 'Price (per Kg)',
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide()
+                                        ),
+                                        focusColor: Colors.white,
+                                        isDense: true,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0),
+                                child: FormBuilderDropdown(
+                                    attribute: 'grade',
+                                    decoration: InputDecoration(
+                                        labelText: 'Grade',
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide()
+                                        ),
+                                        focusColor: Colors.white,
+                                        isDense: true,
+                                    ),
+                                    validators: [FormBuilderValidators.required()],
+                                    items: ['A','B','C','D'].map((grade)=>DropdownMenuItem(
+                                        value: grade,
+                                        child: Text('$grade'),
+                                    )).toList(),
 
-                                                  ),
-                                                  BoxShadow(
-                                                      color: Colors.black12,
-                                                      offset: Offset(0.0,-10.0),
-                                                      blurRadius: 15.0
 
-                                                  )
+                                ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                child: Material(
+                                    child: InkWell(
+                                        onTap: getImage,
+                                        child: Container(
+                                            height: 50.0,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black12,
+                                                        offset: Offset(0.0,15.0),
+                                                        blurRadius: 15.0
+                                                    ),
+                                                    BoxShadow(
+                                                        color: Colors.black12,
+                                                        offset: Offset(0.0,-10.0),
+                                                        blurRadius: 15.0
+                                                    )
+                                                ]
+                                            ),
+                                            child: Center(
+                                                child: Text('ADD IMAGE',
+                                                    style: TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                )
+                            ) ,
+                            Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                child: Material(
+                                    child: InkWell(
+                                        onTap: onSave,
+                                        child: Container(
+                                            height: 50.0,
+                                           width: double.infinity,
+                                           // margin: const EdgeInsets.all(100.0),
+                                            decoration:  BoxDecoration(
+                                                color: Color.fromRGBO(52, 152,219 , 1.0),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black12,
+                                                        offset: Offset(0.0,15.0),
+                                                        blurRadius: 15.0
 
-                                              ]
-                                          ),
-                                          child: Center(
-                                              child: Text('ADD CROP',
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold
-                                                  ),
-                                              ),
-                                          ),
-                                      ),
-                                  ),
-                              ),
-                          )
+                                                    ),
+                                                    BoxShadow(
+                                                        color: Colors.black12,
+                                                        offset: Offset(0.0,-10.0),
+                                                        blurRadius: 15.0
 
-                      ],
-                  ),
+                                                    )
+
+                                                ]
+                                            ),
+                                            child: Center(
+                                                child: Text('ADD CROP',
+                                                    style: TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            )
+
+                        ],
+                    ),
+                ),
               ),
             ),
-            Expanded(
+            Flexible(
                 flex: 1,
                 child: Row(
                     children: <Widget>[
@@ -282,11 +272,20 @@ class _AddCropState extends State<AddCrop> {
     );
   }
 
-  onSave(){
+  onSave() async{
+        var userProfile=Provider.of<UserProfile>(context);
         _fbKey.currentState.save();
         if(_fbKey.currentState.validate()){
-            print(_fbKey.currentState.value);
-            print(_image);
+           // print(_fbKey.currentState.value);
+
+//            var response=await FarmerService.addCrop(data: _fbKey.currentState.value, authToken: userProfile.authToken);
+//            print(response.body);
+//            print(response.statusCode);
+
+            var resp=await Crop.addCrop(authToken: userProfile.authToken, data: _fbKey.currentState.value, file: _image);
+            print(resp.statusCode);
+            Navigator.of(context).pop();
+            //print(_image);
         }
   }
 }

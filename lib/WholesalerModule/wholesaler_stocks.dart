@@ -1,26 +1,24 @@
 import 'package:agro_chain/APIEndpoints/StockAPI/stock.dart';
 import 'package:agro_chain/UserServices/stock_trackback.dart';
 import 'package:agro_chain/models/userProfile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConsumerTrackBack extends StatefulWidget {
+class WholesalerStock extends StatefulWidget {
   @override
-  _ConsumerTrackBackState createState() => _ConsumerTrackBackState();
+  _WholesalerStockState createState() => _WholesalerStockState();
 }
 
-class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
+class _WholesalerStockState extends State<WholesalerStock> {
   @override
   Widget build(BuildContext context) {
       final userProfile=Provider.of<UserProfile>(context);
     return Scaffold(
         appBar: AppBar(
-            title:Text('Choose Order'),
-            elevation: 0.0,
+            title: Text('Wholesaler Stocks'),
             backgroundColor: Color.fromRGBO(52, 152,219 , 1.0),
-            leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
-                Navigator.of(context).pop();
-            },),
+            elevation: 0.0,
         ),
         body: Container(
             width: double.infinity,
@@ -38,7 +36,7 @@ class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
                         scrollDirection: Axis.vertical,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index){
-                            // print(snapshot.data[index]);
+                           // print(snapshot.data[index]);
                             return Padding(
                                 padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 5.0,bottom: 5.0),
                                 child: Card(
@@ -78,7 +76,7 @@ class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
                                                 ),
                                                 Padding(
                                                     padding: const EdgeInsets.only(top:4.0,left:15.0),
-                                                    child: Text('Order ID:'+snapshot.data[index].stockId,
+                                                    child: Text('Stock ID:'+snapshot.data[index].stockId,
                                                         style: TextStyle(
                                                             fontSize: 18.0,
                                                             color: Colors.white,
@@ -91,7 +89,17 @@ class _ConsumerTrackBackState extends State<ConsumerTrackBack> {
                                                 ),
                                                 Padding(
                                                     padding:const EdgeInsets.only(top:4.0,left:15.0),
-                                                    child: Text('Bought:'+snapshot.data[index].quantity.toString()+'Kg',
+                                                    child: Text('Available:'+snapshot.data[index].quantity.toString()+'Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding:const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Text('Price: Rs.'+snapshot.data[index].sellingPrice.toString()+'/Kg',
                                                         style: TextStyle(
                                                             fontSize: 18.0,
                                                             color: Colors.white,

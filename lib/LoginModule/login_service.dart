@@ -5,12 +5,12 @@ import 'package:http/http.dart' as http;
 class LoginService{
 
    static Future<http.Response> userLogin(Map<dynamic,dynamic> data) async{
-       print(data);
+       //print(data);
     //   print(convert.jsonEncode(data));
        var body=convert.jsonEncode(data);
 
-       print(body);
-       Map<String, String> headers = {"Content-type": "application/json"};
+     //  print(body);
+     //  Map<String, String> headers = {"Content-type": "application/json"};
         var url='http://farmchain.rishavanand.com:3000/user/login';
         var response= await http.post(url,
             headers: {"Content-Type":"application/json"},
@@ -36,12 +36,25 @@ class LoginService{
     }
    static Future<http.Response> userPhoto(var authToken) async{
 
-       Map<dynamic,dynamic> header={"Authorization":"$authToken"};
+       Map<String,String> header={"Authorization":"$authToken"};
        var url='http://farmchain.rishavanand.com:3000/user/photo';
        var response=await http.get(url,
            headers: header
        );
        return response;
+   }
+
+   static String userDashboard(String userType){
+       if(userType=='farmer')
+           return '/farmerDashboard';
+       else if(userType=='wholesaler')
+           return '/wholesalerDashboard';
+       else if(userType=='retailer')
+           return '/retailerDashboard';
+       else
+           return '/consumerDashboard';
+
+
    }
 
 }

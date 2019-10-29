@@ -189,6 +189,48 @@ class _RegisterPageState extends State<RegisterPage> {
                               Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: FormBuilderTextField(
+                                      attribute: 'firstName',
+                                      keyboardType: TextInputType.text,
+                                      validators: [
+                                         // FormBuilderValidators.minLength(10),
+                                          FormBuilderValidators.required()
+                                      ],
+                                      decoration: InputDecoration(
+                                          labelText: 'First Name',
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              borderSide: BorderSide()
+                                          ),
+                                          focusColor: Colors.white,
+                                          isDense: true,
+                                      ),
+                                  ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: FormBuilderTextField(
+                                      attribute: 'lastName',
+                                      keyboardType: TextInputType.text,
+                                      validators: [
+                                          // FormBuilderValidators.minLength(10),
+                                          FormBuilderValidators.required()
+                                      ],
+                                      decoration: InputDecoration(
+                                          labelText: 'Last Name',
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              borderSide: BorderSide()
+                                          ),
+                                          focusColor: Colors.white,
+                                          isDense: true,
+                                      ),
+                                  ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: FormBuilderTextField(
                                       attribute: 'mobileNumber',
                                       keyboardType: TextInputType.number,
                                       validators: [
@@ -234,7 +276,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       attribute: 'rePassword',
                                       obscureText: true,
                                       validators: [FormBuilderValidators.required(),
-                                        FormBuilderValidators.minLength(8)
+                                        FormBuilderValidators.minLength(8),
+
                                       ],
                                       decoration: InputDecoration(
                                           labelText: 'Re-Password',
@@ -264,7 +307,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                       validators: [FormBuilderValidators.required()],
                                       items: ['FARMER','WHOLESALER','RETAILER','CONSUMER'].map((usertype)=>DropdownMenuItem(
-                                          value: usertype,
+                                          value: usertype.toLowerCase(),
                                           child: Text('$usertype'),
                                       )).toList(),
                                   ),
@@ -315,7 +358,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
     );
   }
-  void _onRegister(){
+   _onRegister()  {
 //        print(passwordController.text);
 //        print(rePasswordController.text);
 
@@ -323,10 +366,46 @@ class _RegisterPageState extends State<RegisterPage> {
 //                print("Register Successful");
 //                Navigator.pop(context);
 //            }
-         _registerKey.currentState.save();
-        if(_registerKey.currentState.validate()){
-                     print(_registerKey.currentState.value);
-        }
+            _registerKey.currentState.validate();
+            _registerKey.currentState.save();
+            if(_registerKey.currentState.value['password']==_registerKey.currentState.value['rePassword']) {
+
+
+
+                //print(_registerKey.currentState.value);
+                var formData = _registerKey.currentState.value;
+                if (formData['password'] == formData['rePassword']) {
+                    print(formData);
+//                        Map<dynamic,dynamic> data;
+                    var data = {
+                        'firstName': formData['firstName'],
+                        'lastName': formData['lastName'],
+                        'mobileNumber': formData['mobileNumber'],
+                        'password': formData['password'],
+                        'userType': formData['userType'],
+                    };
+                    print(data);
+//
+//                        data.addAll(formData);
+//                        print(data);
+//                        data.remove('rePassword');
+//                        print(data);
+
+
+                }
+                else {
+                    print("Password do not Match");
+//                        final snackBar=SnackBar(content: Text('Password do not Match'),);
+//                        Scaffold.of(context).showSnackBar(snackBar);
+
+                }
+            }
+//        else{
+////            final snackbar=SnackBar(content: Text('Enter Valid Details'),);
+////            Scaffold.of(context).showSnackBar(snackbar);
+//        //    _registerKey.currentState.reset();
+//
+//        }
 
   }
 }

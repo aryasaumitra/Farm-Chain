@@ -1,6 +1,9 @@
-import 'package:agro_chain/FarmersModule/crop_detail.dart';
+import 'package:agro_chain/APIEndpoints/StockAPI/stock.dart';
+
+import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ViewCrops extends StatefulWidget {
   @override
@@ -8,12 +11,18 @@ class ViewCrops extends StatefulWidget {
 }
 
 class _ViewCropsState extends State<ViewCrops> {
-    List<CropDetails> cropList=CropDetails.getCropList;
+
+    //List<CropDetails> cropList=CropDetails.getCropList;
+
   @override
   Widget build(BuildContext context) {
+      final userProfile=Provider.of<UserProfile>(context);
+     // print(userProfile.authToken);
+//      var list=FarmerService.getCropList(authToken:userProfile.authToken );
+//      print(list);
     return Scaffold(
         appBar: AppBar(
-            title: Text('Crops',
+            title: Text('Crops Listings',
 
             style: TextStyle(
                 fontSize: 20.0,
@@ -42,87 +51,113 @@ class _ViewCropsState extends State<ViewCrops> {
                 )
             ],
         ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-                Expanded(
-                    flex: 6,
-                  child: ListView.builder(
-                      scrollDirection:Axis.vertical ,
-                      itemCount: cropList.length,
-                      itemBuilder:( context, index){
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 20.0,bottom: 10.0),
-                            child: Container(
-                                decoration: BoxDecoration(
+        body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: FutureBuilder(
+                future: Stock.getStocks(authToken: userProfile.authToken),
+                builder: (context,snapshot){
+                    if(!snapshot.hasData){
+                        return Center(
+                            child: Text('Loading...'),
+                        );
+                    }
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index){
+                            // print(snapshot.data[index]);
+                            return Padding(
+                                padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 5.0,bottom: 5.0),
+                                child: Card(
+                                    elevation: 8.0,
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            offset: Offset(0.0,15.0),
-                                            blurRadius: 15.0
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(52, 152,219 , 1.0),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                            boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    offset: Offset(0.0,10.0),
+                                                    blurRadius: 5.0
+                                                ),
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    offset: Offset(0.0,-10.0),
+                                                    blurRadius: 5.0
+                                                )
 
+                                            ]
                                         ),
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            offset: Offset(0.0,-10.0),
-                                            blurRadius: 15.0
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0),
+                                                    child: Text(snapshot.data[index].cropVariety+' '+snapshot.data[index].cropName,
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 24.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Text('Stock ID:'+snapshot.data[index].stockId,
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                SizedBox(
+                                                    height: 10.0,
+                                                ),
+                                                Padding(
+                                                    padding:const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Text('Available:'+snapshot.data[index].quantity.toString()+'Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding:const EdgeInsets.only(top:4.0,left:15.0),
+                                                    child: Text('Price: Rs.'+snapshot.data[index].sellingPrice.toString()+'/Kg',
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0,bottom: 10.0),
+                                                    child: Text('Grade:'+snapshot.data[index].cropGrade,
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.white,
+                                                            wordSpacing: 2.0
+                                                        ),
+                                                    ),
+                                                ),
 
-                                        )
 
-                                    ]
+                                            ],
+                                        ),
+                                    ),
                                 ),
-                              child: ListTile(
-                                  contentPadding: const EdgeInsets.all(5.0),
-                                  leading: CircleAvatar(
-
-                                  ),
-                                  title: Text(cropList[index].cropName,style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('Qty:'+cropList[index].cropQuantity+'\nPrice:'+cropList[index].cropPrice+'\nGrade:'+cropList[index].cropGrade),
-                                  isThreeLine: true,
-                                  trailing: IconButton(icon:Icon(Icons.edit),tooltip: 'Edit Crop',),
-                                  onTap: (){
-
-                                  },
-
-                              ),
-                            ),
-                          );
-                      } ,
-
-                  ),
-                ),
-                Expanded(
-                    flex:1,
-                    child: Row(
-                        children: <Widget>[
-                            Expanded(
-                                flex: 1,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(top: 20.0,right: 10.0),
-                                    child: Image.asset('assets/image/cereal.png',width: 70.0,height: 70.0,),
-                                ),
-                            ),
-                            Expanded(
-                                flex: 2,
-                                child: SizedBox(
-                                    width: 70.0,
-                                    height: 70.0,
-                                ),
-                            ),
-                            Expanded(
-                                flex: 1,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(top: 20.0,right: 10.0),
-                                    child: Image.asset('assets/image/cereal.png',width: 70.0,height: 70.0,),
-                                ),
-                            )
-                        ],
-                    ),
-                )
-            ],
+                            );
+                        });
+                },
+            ),
         ),
     );
   }
