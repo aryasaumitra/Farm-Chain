@@ -1,3 +1,4 @@
+import 'package:agro_chain/APIEndpoints/OrdersAPI/order.dart';
 import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,12 +33,14 @@ class _WholesalerDashboardState extends State<WholesalerDashboard> {
         ) ?? false;
     }
 
+
+
   @override
   Widget build(BuildContext context) {
       final userProfile=Provider.of<UserProfile>(context);
-     // print("WholeSaler");
+
       print("WholeSaler AuthToken:"+userProfile.authToken);
-      //print(userProfile);
+
     return WillPopScope(
         onWillPop: _onWillPop,
       child: Scaffold(
@@ -294,7 +297,7 @@ class _WholesalerDashboardState extends State<WholesalerDashboard> {
 
                                               child: InkWell(
                                                   onTap: (){
-                                                      // Navigator.pushNamed(context, '/farmerProfile');
+                                                       Navigator.pushNamed(context, '/wholesalerProfile');
                                                   },
                                                   child: Container(
                                                       height: 80.0,

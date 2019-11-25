@@ -1,10 +1,12 @@
 import 'package:agro_chain/APIEndpoints/CropAPI/crop.dart';
 import 'package:agro_chain/APIEndpoints/ProductAPI/product.dart';
+import 'package:agro_chain/APIEndpoints/UserAPI/user.dart';
 import 'package:agro_chain/RetailerModule/retailer_buy_crop.dart';
 import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
+import 'package:rating_bar/rating_bar.dart';
 
 class RetailerCropSearch extends StatefulWidget {
   @override
@@ -407,6 +409,36 @@ class _RetailerCropSearchState extends State<RetailerCropSearch> {
                                                             wordSpacing: 2.0
                                                         ),
                                                     ),
+                                                ),
+                                                FutureBuilder(
+                                                    future: User.getReview(authToken: userProfile.authToken, sellerId: snapshot.data[index].ownerId),
+                                                    builder: (context,snapshot){
+                                                        if(snapshot.hasData){
+                                                            // print(snapshot.data);
+                                                            //double rating=snapshot.data.toDouble();
+                                                            return RatingBar.readOnly(
+                                                                initialRating: snapshot.data.toDouble(),
+                                                                isHalfAllowed: true,
+                                                                filledIcon: Icons.star,
+                                                                filledColor: Colors.amber,
+                                                                emptyIcon: Icons.star_border,
+                                                                emptyColor: Colors.amber,
+                                                                halfFilledIcon: Icons.star_half,
+                                                                halfFilledColor: Colors.amber,
+                                                                maxRating: 5,
+                                                            );
+                                                        }
+                                                        return RatingBar.readOnly(
+                                                            initialRating: 0.0,
+                                                            maxRating: 5,
+                                                            halfFilledIcon: Icons.star_half,
+                                                            halfFilledColor: Colors.amber,
+                                                            filledIcon: Icons.star,
+                                                            filledColor: Colors.amber,
+                                                            emptyIcon: Icons.star_border,
+                                                            emptyColor: Colors.amber,
+                                                        );
+                                                    },
                                                 ),
                                                 Padding(
                                                     padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),

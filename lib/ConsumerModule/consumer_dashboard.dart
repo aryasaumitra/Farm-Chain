@@ -219,7 +219,7 @@ class _ConsumerDashboardState extends State<ConsumerDashboard> {
 
                             child: InkWell(
                                 onTap: (){
-                                    // Navigator.pushNamed(context, '/orders');
+                                     Navigator.pushNamed(context, '/consumerProfile');
                                 },
                                 child: Container(
                                     height: 100.0,

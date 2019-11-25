@@ -94,9 +94,14 @@ class _ViewCropsState extends State<ViewCrops> {
                                         child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
-                                                Padding(
-                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0),
-                                                    child: Text(snapshot.data[index].cropVariety+' '+snapshot.data[index].cropName,
+
+                                                ListTile(
+                                                    leading: CircleAvatar(
+                                                        backgroundImage: NetworkImage('http://farmchain.rishavanand.com:3000/stock/'+snapshot.data[index].stockId+'/photo',headers: {
+                                                            'Authorization':userProfile.authToken
+                                                        }),
+                                                    ),
+                                                    title: Text(snapshot.data[index].cropVariety+' '+snapshot.data[index].cropName,
                                                         style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 24.0,
@@ -104,10 +109,7 @@ class _ViewCropsState extends State<ViewCrops> {
                                                             wordSpacing: 2.0
                                                         ),
                                                     ),
-                                                ),
-                                                Padding(
-                                                    padding: const EdgeInsets.only(top:4.0,left:15.0),
-                                                    child: Text('Stock ID:'+snapshot.data[index].stockId,
+                                                    subtitle: Text('Stock ID:'+snapshot.data[index].stockId,
                                                         style: TextStyle(
                                                             fontSize: 18.0,
                                                             color: Colors.white,
@@ -115,6 +117,27 @@ class _ViewCropsState extends State<ViewCrops> {
                                                         ),
                                                     ),
                                                 ),
+//                                                Padding(
+//                                                    padding: const EdgeInsets.only(top:4.0,left: 15.0),
+//                                                    child: Text(snapshot.data[index].cropVariety+' '+snapshot.data[index].cropName,
+//                                                        style: TextStyle(
+//                                                            fontWeight: FontWeight.bold,
+//                                                            fontSize: 24.0,
+//                                                            color: Colors.white,
+//                                                            wordSpacing: 2.0
+//                                                        ),
+//                                                    ),
+//                                                ),
+//                                                Padding(
+//                                                    padding: const EdgeInsets.only(top:4.0,left:15.0),
+//                                                    child: Text('Stock ID:'+snapshot.data[index].stockId,
+//                                                        style: TextStyle(
+//                                                            fontSize: 18.0,
+//                                                            color: Colors.white,
+//                                                            wordSpacing: 2.0
+//                                                        ),
+//                                                    ),
+//                                                ),
                                                 SizedBox(
                                                     height: 10.0,
                                                 ),

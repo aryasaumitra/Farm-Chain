@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:agro_chain/APIEndpoints/OrdersAPI/order_model.dart' ;
 
@@ -25,9 +26,8 @@ class Order{
 
     }
 
-    // ignore: missing_return
-    static Future<List<OrderDetail>> getOrders({@required var authToken}) async{
-        List<OrderDetail> orders=[];
+    static Future<int> getCompletedOrderCount({@required var authToken}) async{
+        int orderCount=0;
 
         var response=await http.get('http://farmchain.rishavanand.com:3000/order',
             headers: {
@@ -38,24 +38,60 @@ class Order{
         });
         if(response.statusCode==200){
             var jsonData=jsonDecode(response.body);
-            for (var i in jsonData['payload']['orders']){
-                OrderDetail orderDetail= OrderDetail.name(
-                    i['_id'],
-                    i['stock']['_id'],
-                    i['status'], i['date'],
-                    i['stock']['cropCategory']['name'],
-                    i['stock']['cropCategory']['grade'],
-                    i['stock']['cropCategory']['variety'],
-                    i['stock']['owner']['userType'],
-                    i['stock']['owner']['firstName'],
-                    i['stock']['owner']['lastName'],
-                    i['quantity'], i['sellingPrice'],
-                    i['buyer']['userType'],
-                    i['buyer']['firstName'],
-                    i['buyer']['lastName'],
-                    int.tryParse(i['stock']['sellingPrice']));
-                orders.add(orderDetail);
+            for(var i in jsonData['payload']['orders']){
+                if(i['status']=='completed'){
+                    orderCount+=1;
+                }
             }
+        }
+        return orderCount;
+
+    }
+
+    // ignore: missing_return
+    static Future<List<OrderDetail>> getOrders({@required var authToken}) async{
+        List<OrderDetail> orders=[];
+        OrderDetail orderDetail;
+
+        var response=await http.get('http://farmchain.rishavanand.com:3000/order',
+            headers: {
+                "Authorization":"$authToken"
+            }
+        ).catchError((err){
+            print(err);
+        });
+
+        print(response.statusCode);
+        if(response.statusCode==200){
+            var jsonData=jsonDecode(response.body);
+            print(jsonData);
+            for (var i in jsonData['payload']['orders']){
+                try {
+                     orderDetail = OrderDetail.name(
+                        i['_id'],
+                        i['stock']['_id'],
+                        i['status'],
+                        i['date'],
+                        i['cropCategory']['name'],
+                        i['cropCategory']['grade'],
+                        i['cropCategory']['variety'],
+                        i['seller']['userType'],
+                        i['seller']['firstName'],
+                        i['seller']['lastName'],
+                        i['quantity'],
+                        i['sellingPrice'],
+                        i['buyer']['userType'],
+                        i['buyer']['firstName'],
+                        i['buyer']['lastName'],
+                        i['review']
+                    );
+                }catch(e){
+                    print(e);
+                }
+                //print(orderDetail.cropVariety);
+               orders.add(orderDetail);
+            }
+           // print(orders.length);
             return orders;
         }
     }
@@ -79,5 +115,23 @@ class Order{
             return true;
         else
             return false;
+    }
+    static Future<bool> addReview({@required var authToken,@required Map<dynamic,dynamic> data}) async{
+        var body=jsonEncode(data);
+        var response= await http.post('http://farmchain.rishavanand.com:3000/order/review',
+            headers: {
+                "Content-Type":"application/json",
+                "Authorization":"$authToken"
+            },
+            body: body
+        ).catchError((err){
+            print(err);
+        });
+        if(response.statusCode==200){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

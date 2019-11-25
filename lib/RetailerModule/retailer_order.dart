@@ -1,4 +1,5 @@
 import 'package:agro_chain/APIEndpoints/OrdersAPI/order.dart';
+import 'package:agro_chain/UserServices/add_review.dart';
 import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -159,7 +160,66 @@ class _RetailerOrdersState extends State<RetailerOrders> {
                                                         ],
                                                     )
                                                 ),
-                                                snapshot.data[index].orderStatus=='COMPLETED'?SizedBox(height: 10.0,):Padding(
+                                                snapshot.data[index].orderStatus=='COMPLETED'?snapshot.data[index].orderReview==true?Padding(
+                                                    padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                                    child: Container(
+                                                        height: 40.0,
+                                                        width: double.infinity,
+                                                        decoration: BoxDecoration(
+//
+                                                            // borderRadius: BorderRadius.circular(10.0),
+                                                            color: Colors.green,
+                                                        ),
+                                                        child: Center(
+                                                            child: Text('ORDER REVIEWED',
+                                                                style: TextStyle(
+                                                                    fontSize: 20.0,
+                                                                    fontWeight: FontWeight
+                                                                        .bold,
+                                                                    color: Colors
+                                                                        .white
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ):Padding(
+                                                    padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
+                                                    child: Material(
+                                                        child: InkWell(
+                                                            onTap: (){
+//
+                                                                Navigator.push(context, MaterialPageRoute(
+                                                                    builder: (context)=>AddReview(orderDetail: snapshot.data[index],)
+                                                                ));
+                                                            },
+                                                            child: Container(
+                                                                height: 40.0,
+                                                                width: double.infinity,
+                                                                decoration: BoxDecoration(
+//                                                    color: Color
+//                                                        .fromRGBO(
+//                                                        52, 152, 219,
+//                                                        1.0),
+                                                                    color: Colors.orange,
+//                                                                borderRadius: BorderRadius
+//                                                                    .circular(8.0),
+
+                                                                ),
+                                                                child: Center(
+                                                                    child: Text('SUBMIT REVIEW',
+                                                                        style: TextStyle(
+                                                                            fontSize: 20.0,
+                                                                            fontWeight: FontWeight
+                                                                                .bold,
+                                                                            color: Colors
+                                                                                .white
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ):Padding(
                                                     padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 10.0,bottom: 10.0),
                                                     child:   Material(
                                                         child: InkWell(

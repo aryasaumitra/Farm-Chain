@@ -44,7 +44,9 @@ class Product{
                 i['owner']['city'],
                 i['owner']['address'],
                 i['owner']['state'],
-                i['owner']['userType']);
+                i['owner']['userType'],
+                i['owner']['_id']
+                );
                 products.add(productDetail);
             }
             return products;

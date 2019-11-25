@@ -64,18 +64,21 @@ class Stock{
             var jsonData=jsonDecode(response.body);
             for(var i in jsonData['payload']['trackback']){
                 print(i);
-                StockTrackBackDetails stockTrackBackDetails=StockTrackBackDetails.name(i['dateCreated'],
-                    i['_id'],
-                    i['type'],
-                    int.parse(i['sellingPrice']),
-                    i['owner']['userType'],
-                    i['owner']['address'],
-                    i['owner']['city'],
-                    i['owner']['state'],
-                    i['owner']['firstName'],
-                    i['owner']['lastName'],
-                    i['owner']['userType']
-                );
+                StockTrackBackDetails stockTrackBackDetails=StockTrackBackDetails.name(
+                    i['newRate'],
+                    int.tryParse(i['purchaseRate']),
+                    i['buyer']['firstName'],
+                    i['buyer']['lastName'],
+                    i['buyer']['userType'],
+                    i['seller']['userType'],
+                    i['buyer']['address'],
+                    i['buyer']['city'],
+                    i['buyer']['state'],
+                    i['seller']['firstName'],
+                    i['seller']['lastName'],
+                    i['seller']['address'],
+                    i['seller']['city'],
+                    i['seller']['state']);
                 trackback.add(stockTrackBackDetails);
             }
            var reversedTrackback= trackback.reversed.toList();

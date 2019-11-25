@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 
+import 'package:agro_chain/APIEndpoints/OrdersAPI/order.dart';
+import 'package:agro_chain/LoginModule/local_authentication_service.dart';
 import 'package:agro_chain/LoginModule/login_service.dart';
+import 'package:agro_chain/LoginModule/service_locator.dart';
 import 'package:agro_chain/models/userProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
     final GlobalKey<FormBuilderState> _loginKey = GlobalKey<FormBuilderState>();
+    //final LocalAuthenticationService _localAuth=locator<LocalAuthenticationService>();
 
 
     // final formkey=GlobalKey<FormState>();
@@ -272,6 +276,7 @@ class _LoginPageState extends State<LoginPage> {
         _loginKey.currentState.save();
         //print(_loginKey.currentState.value);
         if (_loginKey.currentState.validate()) {
+           // _localAuth.authenticate();
             pr.show();
             Map<dynamic, dynamic> data = _loginKey.currentState.value;
             // print(data);
@@ -318,6 +323,8 @@ class _LoginPageState extends State<LoginPage> {
                         lastName: userProfileDecoded['payload']['profile']['lastName'],
                         userImage: userImage
                     );
+
+                    userProfile.orders=await Order.getCompletedOrderCount(authToken: userProfile.authToken);
 
                     //print(userProfileDecoded['payload']['profile']['userType']);
                     String userDashboard=LoginService.userDashboard(userProfileDecoded['payload']['profile']['userType']);

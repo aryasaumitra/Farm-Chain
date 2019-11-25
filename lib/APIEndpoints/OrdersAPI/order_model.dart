@@ -16,11 +16,14 @@ class OrderDetail{
     int _quantity;
     int _sellingPrice;
     int _stockPrice;
+    bool _orderReview;
+
+    bool get orderReview => _orderReview;
 
     OrderDetail.name(this._orderId, this._stockId, this._orderStatus,
         this._orderDate, this._cropName, this._cropGrade, this._cropVariety,
         this._ownerType, this._ownerFirstName, this._ownerLastName,
-        this._quantity, this._sellingPrice,this._buyerType,this._buyerFirstName,this._buyerLastName,this._stockPrice);
+        this._quantity, this._sellingPrice,this._buyerType,this._buyerFirstName,this._buyerLastName,this._orderReview);
 
     int get sellingPrice => _sellingPrice;
 

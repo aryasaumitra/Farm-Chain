@@ -14,11 +14,14 @@ class ProductDetail{
     String _ownerAddress;
     String _ownerState;
     String _ownerType;
+    String _ownerId;
+
+    String get ownerId=>_ownerId;
 
     ProductDetail.name(this._productId, this._cropId, this._name, this._variety,
         this._grade, this._date, this._quantity, this._sellingPrice,
         this._ownerFirstName, this._ownerLastName, this._ownerCity,
-        this._ownerAddress, this._ownerState,this._ownerType);
+        this._ownerAddress, this._ownerState,this._ownerType,this._ownerId);
 
     int get sellingPrice => _sellingPrice;
 

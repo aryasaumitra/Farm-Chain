@@ -69,8 +69,8 @@ class _StockTrackBackState extends State<StockTrackBack> {
                                             children: <Widget>[
                                                 Row(
                                                     children: <Widget>[
-                                                        Text('Name:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
-                                                        Text(snapshot.data[i].ownerName,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                        Text('Seller:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                        Text(snapshot.data[i].sellerName,style: TextStyle(color: Colors.black,fontSize: 16.0),)
                                                     ],
                                                 ),
                                                 SingleChildScrollView(
@@ -79,28 +79,54 @@ class _StockTrackBackState extends State<StockTrackBack> {
                                                   child: Row(
                                                       children: <Widget>[
                                                           Text('Location:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
-                                                          Text(snapshot.data[i].ownerAddress,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                          Text(snapshot.data[i].sellerAddress,style: TextStyle(color: Colors.black,fontSize: 16.0),)
                                                       ],
                                                   ),
                                                 ),
-                                                snapshot.data[i].ownerType=='Consumer'?Container(width: 0, height: 0,):Row(
+                                                Row(
                                                     children: <Widget>[
-                                                        Text('Price:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
-                                                        Text(snapshot.data[i].sellingPrice.toString()+'/Kg',style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                        Text('Selling Price:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                        Text(snapshot.data[i].purchaseRate.toString()+'/Kg',style: TextStyle(color: Colors.black,fontSize: 16.0),)
                                                     ],
                                                 ),
                                                 Row(
                                                     children: <Widget>[
                                                         Text('Type:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
-                                                        Text(snapshot.data[i].ownerUserType,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                        Text(snapshot.data[i].sellerType,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                    ],
+                                                ),
+                                                SizedBox(
+                                                    height: 10.0,
+                                                ),
+                                                Row(
+                                                    children: <Widget>[
+                                                        Text('Buyer:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                        Text(snapshot.data[i].buyerName,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                    ],
+                                                ),
+                                                SingleChildScrollView(
+
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                        children: <Widget>[
+                                                            Text('Location:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                            Text(snapshot.data[i].buyerAddress,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                        ],
+                                                    ),
+                                                ),
+                                                snapshot.data[i].buyerType=='Consumer'?Container(height: 0.0,):Row(
+                                                    children: <Widget>[
+                                                        Text('New Price:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                        Text(snapshot.data[i].newRate.toString()+'/Kg',style: TextStyle(color: Colors.black,fontSize: 16.0),)
                                                     ],
                                                 ),
                                                 Row(
                                                     children: <Widget>[
-                                                        Text('Date:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
-                                                        Text(snapshot.data[i].dateCreated,style: TextStyle(color: Colors.black,fontSize: 16.0),)
+                                                        Text('Type:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0),),
+                                                        Text(snapshot.data[i].buyerType,style: TextStyle(color: Colors.black,fontSize: 16.0),)
                                                     ],
                                                 ),
+
                                             ],
                                         ),
                                     ),
